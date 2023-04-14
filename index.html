@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+</head>
+<body>
+  <nav class="navbar  bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand">DesignMania</a>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2"  type="search" id="searchItem" placeholder="Search" aria-label="Search">
+       
+      </form>
+      <button class="btn btn-outline-success" id="LetterNum" >Letter Num</button>
+      <button class="btn btn-outline-success" id="LetterSort" >Letter Sort</button>
+      <button class="btn btn-outline-success" id="BackDefault" >Back Default</button>
+    </div>
+  </nav>
+    <div id="product-list" class="d-flex flex-wrap ">
+
+    </div>
+</body>
+<script>
+
+fetch('https://api.spoonacular.com/recipes/complexSearch/?apiKey=3adc5561c5be4e82bf44f3a670c6714f')
+  .then(x=>x.json())
+  .then((y)=> display(y))
+
+
+function display(y){
+
+  z = JSON.stringify(y.results);
+    let lZ= localStorage.setItem("name", z)
+
+    let Ldata= localStorage.getItem("name")
+
+    // document.getElementById("demo").innerHTML=Ldata
+    
+    products= JSON.parse(Ldata)
+
+    var SortNum = products.slice(0);
+    var LetterNum = products.slice(0);
+
+   
+    document.getElementById("LetterNum").addEventListener(
+      "click", function () {
+       
+SortNum.sort(function(a,b) {
+    return a.id - b.id;
+});
+const SortNumMap = SortNum.map(product => 
+
+` 
+
+<div class="card mt-3 m-1" style="width: 18rem;">
+  <img src="${product.image}" class="card-img-top" alt="..." width=100% height=300px>
+  <div class="card-body">
+    <h5 class="card-title">${product.title.substring(0,20)}</h5>
+    <p class="card-text">${product.id}</p>
+    <a href="#" class="btn btn-primary">Add to Cart</a>
+  </div>
+</div>
+
+
+`
+
+).join('');
+document.querySelector('#product-list').innerHTML = SortNumMap;
+      }
+    )
+    
+    document.getElementById("LetterSort").addEventListener(
+      "click", function () {
+        LetterNum.sort(function(a, b) {
+   return a.title.localeCompare(b.title);
+})
+const LetterNumMap = LetterNum.map(product => 
+
+` 
+
+<div class="card mt-3 m-1" style="width: 18rem;">
+  <img src="${product.image}" class="card-img-top" alt="..." width=100% height=300px>
+  <div class="card-body">
+    <h5 class="card-title">${product.title.substring(0,20)}</h5>
+    <p class="card-text">${product.id}</p>
+    <a href="#" class="btn btn-primary">Add to Cart</a>
+  </div>
+</div>
+
+
+`
+
+).join('');
+document.querySelector('#product-list').innerHTML = LetterNumMap;
+      }
+    )
+
+
+console.log(LetterNum)
+
+const productCardsHtml = products.map(product => 
+
+` 
+
+<div class="card mt-3 m-1" style="width: 18rem;">
+  <img src="${product.image}" class="card-img-top" alt="..." width=100% height=300px>
+  <div class="card-body">
+    <h5 class="card-title">${product.title.substring(0,20)}</h5>
+    <p class="card-text">${product.id}</p>
+    <a href="#" class="btn btn-primary">Add to Cart</a>
+  </div>
+</div>
+
+
+`
+
+).join('');
+document.querySelector('#product-list').innerHTML = productCardsHtml;
+
+document.getElementById("BackDefault").addEventListener(
+      "click", function () {
+        document.querySelector('#product-list').innerHTML = productCardsHtml;
+
+      })
+
+  // let searchBar = document.getElementById('searchItem').value.toUpperCase();
+  
+  
+  let searchBar = document.getElementById('searchItem')
+searchBar.addEventListener('keyup', searchProducts);
+
+function searchProducts() {
+  const searchTerm = searchBar.value.toLowerCase();
+
+  const filteredProducts = products.filter((product) => {
+    
+    const productName = product.title.toLowerCase();
+  
+
+    return productName.includes(searchTerm) 
+
+  });
+  const productContainer = document.querySelector('#product-list');
+  const productCardsHtml = filteredProducts.map(product => `
+  <div class="card mt-3 m-1" style="width: 18rem;">
+  <img src="${product.image}" class="card-img-top" alt="..." width=100% height=300px>
+  <div class="card-body">
+    <h5 class="card-title">${product.title.substring(0,20)}</h5>
+    <p class="card-text">${product.id}</p>
+    <a href="#" class="btn btn-primary">Add to Cart</a>
+  </div>
+</div>
+  `).join('');
+
+  productContainer.innerHTML = productCardsHtml;
+}
+
+}
+
+
+
+</script>
+
+</html>
