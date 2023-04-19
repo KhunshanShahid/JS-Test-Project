@@ -1,15 +1,15 @@
 
 
 
-fetch(`https://api.spoonacular.com/recipes/random?apiKey=3adc5561c5be4e82bf44f3a670c6714f&number=10`)
+  fetch(`https://api.spoonacular.com/recipes/random?apiKey=3adc5561c5be4e82bf44f3a670c6714f&number=10`)
   .then(x => x.json())
   .then((data) => {
     let myRecipe = JSON.stringify(data.recipes);
     localStorage.setItem("myRecipe", myRecipe)
-  
+  })
 
 let RecData = localStorage.getItem('myRecipe')
-myRecipeData = JSON.parse(RecData)
+let myRecipeData = JSON.parse(RecData)
 
 let searchBar = document.getElementById('searchItem')
 const productContainer = document.querySelector('#product-list');
@@ -112,4 +112,3 @@ function display(y) {
   searchBar.style.display = 'none';
   myData.pop()
 }
-})
