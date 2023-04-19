@@ -1,8 +1,7 @@
-const API_KEY = '3adc5561c5be4e82bf44f3a670c6714f';
-const NUM_RECIPES = 10;
 
 
-fetch(`https://api.spoonacular.com/recipes/random?apiKey=${API_KEY}&number=${NUM_RECIPES}`)
+
+fetch(`https://api.spoonacular.com/recipes/random?apiKey=3adc5561c5be4e82bf44f3a670c6714f&number=10`)
   .then(x => x.json())
   .then((data) => {
     let myRecipe = JSON.stringify(data.recipes);
