@@ -14,7 +14,7 @@ let myRecipeData = JSON.parse(RecData)
 let searchBar = document.getElementById('searchItem')
 const productContainer = document.querySelector('#product-list');
 let myData = []
-
+let noProducts= "No Food Recipe of This Name"
 const productCardsHtml = myRecipeData.map((product, index) => {
 
   return ` 
@@ -32,6 +32,7 @@ const productCardsHtml = myRecipeData.map((product, index) => {
 `
 }).join('');
 productContainer.innerHTML = productCardsHtml;
+
 
 // ========= when click on this button we come to home page or all data ===========
 
@@ -56,8 +57,12 @@ function searchmyRecipeData() {
     return productName.includes(searchTerm)
 
   });
-
-
+if(filteredmyRecipeData.length<=0)
+{
+  
+  productContainer.innerHTML = `<p class="noPro">${noProducts}</p>`
+}
+else{
   const productCardsHtml2 = filteredmyRecipeData.map((product, index) => {
     return `
   <div class="container" onclick="display(${index})">
@@ -75,6 +80,8 @@ function searchmyRecipeData() {
   `
   }).join('');
   productContainer.innerHTML = productCardsHtml2
+}
+  
 }
 
 // ====== get specific data of produt and display it===========
